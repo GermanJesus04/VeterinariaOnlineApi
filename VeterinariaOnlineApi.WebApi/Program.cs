@@ -1,15 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using VeterinariaOnlineApi.Infraestructura.Data;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+const string NombreConexion = "NombreConexion";
+var ConfigConeccion = builder.Configuration.GetConnectionString(NombreConexion);
+builder.Services.AddDbContext<VeterinariaDbContext>(opc => opc.UseSqlServer(
+    ConfigConeccion ?? throw new InvalidOperationException("Cadena de Conexion no encontrada")
+    )
+);
+
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
