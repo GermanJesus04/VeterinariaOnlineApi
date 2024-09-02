@@ -7,7 +7,8 @@ namespace VeterinariaOnlineApi.Core.Models
     [Table(name:"DUEÑO")]
     public class Dueño: IdentityUser
     {
-        public string Telefono { get; set; }
+        [Column("TELEFONO")]
+        public int Telefono { get; set; }
 
         [Column("FECHA_CREACION")]
         [DataType(DataType.DateTime)]

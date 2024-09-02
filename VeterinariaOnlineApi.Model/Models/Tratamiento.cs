@@ -10,8 +10,10 @@ namespace VeterinariaOnlineApi.Core.Models
     [Table(name:"TRATAMIENTO")]
     public class Tratamiento:EntidadBase<Guid>
     {
-
+        [Column("NOMBRE")]
         public string Nombre { get; set; }
+
+        [Column("DESCRIPCION")]
         public string Descripcion { get; set; }
     }
 }

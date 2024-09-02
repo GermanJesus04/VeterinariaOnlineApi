@@ -17,10 +17,7 @@ namespace VeterinariaOnlineApi.Core.Configuraciones
             builder.HasKey(c => c.Id);
             builder.Property(c => c.UserName).HasMaxLength(20).HasColumnType("VARCHAR").HasColumnName("NOMBRE_USER");
             builder.Property(c => c.PhoneNumber).HasColumnType("int").HasColumnName("NUMERO_CELULAR");
-           
+            builder.Property(c => c.Email).HasColumnType("VARCHAR").HasColumnName("EMAIL");
         }
-    }
-    {
-
     }
 }
