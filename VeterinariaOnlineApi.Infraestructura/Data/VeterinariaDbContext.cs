@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaOnlineApi.Core.Models;
+using VeterinariaOnlineApi.Infraestructura.Configuraciones;
 
 namespace VeterinariaOnlineApi.Infraestructura.Data
 {
@@ -19,6 +20,9 @@ namespace VeterinariaOnlineApi.Infraestructura.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+
+            builder.ApplyConfiguration(new RolesConfiguracion());
         }
 
     }

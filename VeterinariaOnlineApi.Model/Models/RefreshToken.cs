@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VeterinariaOnlineApi.Core.Models
 {
@@ -20,7 +15,7 @@ namespace VeterinariaOnlineApi.Core.Models
         public string JwtId { get; set; }
 
         [Column("TICKET_TOKEN")]
-        public string Ticket { get; set; }
+        public string TicketToken { get; set; }
 
         [Column("TOKEN_USADO")]
         public bool EstaUsado { get; set; }
