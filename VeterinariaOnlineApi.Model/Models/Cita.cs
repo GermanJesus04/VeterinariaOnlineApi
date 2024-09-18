@@ -10,6 +10,17 @@ namespace VeterinariaOnlineApi.Core.Models
     [Table(name:"CITA")]
     public class Cita:EntidadBase<Guid>
     {
+        public Cita()
+        {
+            this.Id = Guid.NewGuid();
+            this.FechaCreacion = new DateTime();
+            this.UsuarioCreacion = "admin";
+            this.FechaActualizacion = new DateTime();
+            this.UsuarioActualizacion = string.Empty;
+            this.UsuarioEliminacion = string.Empty;
+            this.FechaEliminacion = new DateTime();
+        }
+
         [ForeignKey("MASCOTA_ID")]
         public Guid MascotaId { get; set; }
 

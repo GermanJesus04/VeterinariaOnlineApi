@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs;
 
 namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
@@ -18,7 +14,7 @@ namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
             var parametrosSetting = new JwtParametros();
             _configuration.Bind("JsonWebTokenKeys", parametrosSetting);
 
-            var ParametrosValidacionToken = new TokenValidationParameters
+            var ParametrosValidacionToken = new TokenValidationParameters()
             {
                 ValidateIssuerSigningKey = parametrosSetting.KeyFirmaEsValida,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(parametrosSetting.Key)),

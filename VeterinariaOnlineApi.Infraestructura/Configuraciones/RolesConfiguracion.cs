@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
 {
@@ -18,8 +13,8 @@ namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
                 new IdentityRole
                 {
                     Id= Guid.NewGuid().ToString(),
-                    Name = "User",
-                    NormalizedName = "USER"
+                    Name = "Dueño",
+                    NormalizedName = "DUEÑO"
                 },
                 new IdentityRole
                 {

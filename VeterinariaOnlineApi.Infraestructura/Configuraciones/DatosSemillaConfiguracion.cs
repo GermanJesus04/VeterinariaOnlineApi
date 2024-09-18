@@ -1,26 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VeterinariaOnlineApi.Core.Models;
 using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs;
 
-namespace VeterinariaOnlineApi.Infraestructura.HelperConfiguraciones
+namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
 {
-    public class DatosSemilla
+    public class DatosSemillaConfiguracion
     {
         public static async Task Inicializar(
+             IServiceProvider serviceProvider,
             UserManager<Dueño> _userManager,
             RoleManager<IdentityRole> _roleManager,
             AdminSettings admin
             )
         {
-            string[] roles = { "User", "Admin" };
-            foreach ( var rol in roles )
+            string[] roles = ["Dueño", "Admin"];
+            foreach (var rol in roles)
             {
-                if( !await _roleManager.RoleExistsAsync(rol))
+                if (!await _roleManager.RoleExistsAsync(rol))
                 {
                     await _roleManager.CreateAsync(new IdentityRole(rol));
                 }
@@ -29,7 +25,7 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperConfiguraciones
             var emailAdmin = admin.Email;
             var claveAdmin = admin.Password;
 
-            if(await _userManager.FindByEmailAsync(emailAdmin) == null)
+            if (await _userManager.FindByEmailAsync(emailAdmin) == null)
             {
                 var userAdmin = new Dueño
                 {
@@ -40,7 +36,7 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperConfiguraciones
 
                 var result = await _userManager.CreateAsync(userAdmin, claveAdmin);
                 if (result.Succeeded)
-                    await _userManager.AddToRoleAsync(userAdmin,"Admin");
+                    await _userManager.AddToRoleAsync(userAdmin, "Admin");
             }
 
         }
