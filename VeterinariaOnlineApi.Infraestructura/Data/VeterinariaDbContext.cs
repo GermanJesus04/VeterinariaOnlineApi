@@ -7,11 +7,8 @@ using VeterinariaOnlineApi.Infraestructura.Configuraciones;
 
 namespace VeterinariaOnlineApi.Infraestructura.Data
 {
-    public class VeterinariaDbContext: IdentityDbContext<Dueño, IdentityRole, string>
+    public class VeterinariaDbContext(DbContextOptions<VeterinariaDbContext> options) : IdentityDbContext<Dueño, IdentityRole, string>(options)
     {
-        public VeterinariaDbContext(DbContextOptions<VeterinariaDbContext> options) : base(options) { }
-
-
         public DbSet<Dueño> Dueños { get; set; }
         public DbSet<Mascota> Mascotas { get; set; }
         public DbSet<Cita> Citas { get; set; }
