@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using VeterinariaOnlineApi.Core.Models;
-using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs;
+using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs;
 
 namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
 {

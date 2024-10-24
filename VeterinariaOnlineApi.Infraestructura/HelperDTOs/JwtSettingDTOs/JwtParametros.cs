@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 
-namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs
+namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs
 {
     public class JwtParametros
     {

@@ -4,7 +4,9 @@ using Microsoft.Extensions.Options;
 using VeterinariaOnlineApi.Core.Models;
 using VeterinariaOnlineApi.Infraestructura.Configuraciones;
 using VeterinariaOnlineApi.Infraestructura.Data;
-using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs;
+using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs;
+using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices;
+using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,8 @@ builder.Services.AddIdentity<Dueño, IdentityRole>(opc =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<AdminSettings>(builder.Configuration.GetSection("AdminSettings"));
 
+//Inyecciones de dependencias
+builder.Services.AddScoped<IAuthServicios,AuthServicios>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

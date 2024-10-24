@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs;
+using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs;
 
 namespace VeterinariaOnlineApi.Infraestructura.Configuraciones
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtDTOs
+namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs
 {
     internal class AuthResult
     {

@@ -23,8 +23,4 @@
     <ProjectReference Include="..\VeterinariaOnlineApi.Model\VeterinariaOnlineApi.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Servicios\AuthServices\Interfaces\" />
-  </ItemGroup>
-
 </Project>
