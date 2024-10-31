@@ -32,7 +32,7 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.GestionToken
             _userManager = userManager;
         }
 
-        public static async Task<AuthResultDTO> GenerarToken(Dueño user, IList<string> roles)
+        public static async Task<AuthResultDTO> GenerarToken(Dueño user, IList<string> roles, RefreshToken? refreshTokenVigente = null )
         {
             try
             {
@@ -58,25 +58,43 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.GestionToken
                 var tokenhandler = new JwtSecurityTokenHandler();
                 var tokenCreado = tokenhandler.CreateToken(tokenDescriptor);
                 string token = tokenhandler.WriteToken(tokenCreado);
-                RefreshToken refresh = new()
-                {
-                    Id = Guid.NewGuid(),
-                    JwtId = tokenCreado.Id,
-                    UserId = user.Id,
-                    TicketToken = GeneradorCadenasAleatorias(23),
-                    FechaAgredado = DateTime.UtcNow,
-                    FechaVencimiento = DateTime.UtcNow.AddMonths(6),
-                    EstaRevocado = false,
-                    EstaUsado = false,
-                };
 
-                await _dbContext.RefreshTokens.AddAsync(refresh);
-                await _dbContext.SaveChangesAsync();
+
+                string refreshToken = refreshTokenVigente == null ? "" : refreshTokenVigente.TicketToken;
+
+                
+
+                if (string.IsNullOrEmpty(refreshToken))
+                {
+
+                    RefreshToken refresh = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        JwtId = tokenCreado.Id,
+                        UserId = user.Id,
+                        TicketToken = GeneradorCadenasAleatorias(23),
+                        FechaAgredado = DateTime.UtcNow,
+                        FechaVencimiento = DateTime.UtcNow.AddMonths(6),
+                        EstaRevocado = false,
+                        EstaUsado = false,
+                    };
+
+                    await _dbContext.RefreshTokens.AddAsync(refresh);
+                    await _dbContext.SaveChangesAsync();
+
+                    refreshToken = refresh.TicketToken;
+                }
+                else
+                {
+                    refreshTokenVigente.JwtId = tokenCreado.Id;
+                    _dbContext.RefreshTokens.Update(refreshTokenVigente);
+                    await _dbContext.SaveChangesAsync();
+                }
 
                 return new AuthResultDTO
                 {
                     Token = token,
-                    TicketToken = refresh.TicketToken,
+                    TicketToken = refreshToken,
                     Exitoso = true
                 };
 
@@ -111,28 +129,33 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.GestionToken
                     throw new ExcepcionPeticionApi("Token no válido", 400);
                 }
 
-                var tokenAlmacenado = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.TicketToken == tokenCaducado.TicketRefreshToken);
+                //error apartir de aqui
+                var tokenAlmacenado = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.TicketToken == tokenCaducado.ticketToken);
                 if (tokenAlmacenado == null || tokenAlmacenado.EstaUsado || tokenAlmacenado.EstaRevocado)
                     throw new ExcepcionPeticionApi("token no valido", 400);
 
                 var jtiTokenCaducado = verificacionToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
-                if (jtiTokenCaducado != tokenAlmacenado.JwtId || tokenAlmacenado.FechaVencimiento > DateTime.UtcNow)
+                if (jtiTokenCaducado != tokenAlmacenado.JwtId )
                     throw new ExcepcionPeticionApi("token no valido", 400);
+
+               
+                var user = await _userManager.FindByIdAsync(tokenAlmacenado.UserId) ?? throw new ExcepcionPeticionApi("token no valido", 400);
+                var roles = await _userManager.GetRolesAsync(user);
+                
+                if (tokenAlmacenado.FechaVencimiento > DateTime.UtcNow)
+                    return await GenerarToken(user, roles, tokenAlmacenado);
+                
 
                 tokenAlmacenado.EstaUsado = true;
                 _dbContext.RefreshTokens.Update(tokenAlmacenado);
                 await _dbContext.SaveChangesAsync();
 
-                var user = await _userManager.FindByIdAsync(tokenAlmacenado.UserId);
-                if (user == null)
-                    throw new ExcepcionPeticionApi("token no valido", 400);
-
-                var roles = await _userManager.GetRolesAsync(user);
                 return await GenerarToken(user, roles);
+
             }
             catch (Exception ex)
             {
-                throw new ExcepcionPeticionApi("Error al verificar y generar token: " + ex.Message, 500);
+                throw;
             }
         }
 
@@ -147,5 +170,6 @@ namespace VeterinariaOnlineApi.Infraestructura.HelperDTOs.GestionToken
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        
     }
 }

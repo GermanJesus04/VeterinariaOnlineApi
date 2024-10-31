@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /VeterinariaOnlineApi.WebApi/appsettings.json
 /Diagrama Autenticacion JWT.drawio
+/VeterinariaOnlineApi.WebApi/VeterinariaOnlineApi.WebApi.http

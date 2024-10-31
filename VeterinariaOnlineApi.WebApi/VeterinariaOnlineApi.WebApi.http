@@ -1,6 +1,0 @@
-@VeterinariaOnlineApi.WebApi_HostAddress = http://localhost:5128
-
-GET {{VeterinariaOnlineApi.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

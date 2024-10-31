@@ -9,6 +9,6 @@ namespace VeterinariaOnlineApi.Core.DTOs.AuthDTOs
     public class RequestTokenCaducadoDTO
     {
         public string TokenExpirado {  get; set; }
-        public string TicketRefreshToken { get; set; }
+        public string ticketToken { get; set; }
     }
 }
