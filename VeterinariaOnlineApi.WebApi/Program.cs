@@ -7,6 +7,8 @@ using VeterinariaOnlineApi.Infraestructura.Data;
 using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs;
 using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices;
 using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices.Interfaces;
+using VeterinariaOnlineApi.Infraestructura.Servicios.DueñoServices;
+using VeterinariaOnlineApi.Infraestructura.Servicios.DueñoServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,11 +40,14 @@ builder.Services.AddIdentity<Dueño, IdentityRole>(opc =>
     .AddDefaultTokenProviders()
     .AddPasswordValidator<PasswordValidator<Dueño>>();
 
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<AdminSettings>(builder.Configuration.GetSection("AdminSettings"));
 
 //Inyecciones de dependencias
 builder.Services.AddScoped<IAuthServicios,AuthServicios>();
+builder.Services.AddScoped<IDueñoServicios,DueñoServicios>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -57,7 +62,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

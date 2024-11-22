@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VeterinariaOnlineApi.Core.DTOs.AuthDTOs;
 using VeterinariaOnlineApi.Core.DTOs.DueñoDTOs;
 using VeterinariaOnlineApi.Infraestructura.HelperDTOs;
@@ -6,6 +7,7 @@ using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices.Interfaces;
 
 namespace VeterinariaOnlineApi.WebApi.Controllers
 {
+    
     [Route("[controller]")]
     [ApiController]
     public class AuthUserController : ControllerBase
@@ -21,7 +23,7 @@ namespace VeterinariaOnlineApi.WebApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("Registrar")]
         public async Task<IActionResult> RegistrarUser(DueñoRegistrarDTO dueñoDto)
         {
             try
