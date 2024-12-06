@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using VeterinariaOnlineApi.Core.Models;
 using VeterinariaOnlineApi.Infraestructura.Configuraciones;
 using VeterinariaOnlineApi.Infraestructura.Data;
 using VeterinariaOnlineApi.Infraestructura.HelperDTOs.JwtSettingDTOs;
 using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices;
 using VeterinariaOnlineApi.Infraestructura.Servicios.AuthServices.Interfaces;
+using VeterinariaOnlineApi.Infraestructura.Servicios.CitaServices;
+using VeterinariaOnlineApi.Infraestructura.Servicios.CitaServices.Interfaces;
 using VeterinariaOnlineApi.Infraestructura.Servicios.DueñoServices;
 using VeterinariaOnlineApi.Infraestructura.Servicios.DueñoServices.Interfaces;
 
@@ -48,6 +51,45 @@ builder.Services.Configure<AdminSettings>(builder.Configuration.GetSection("Admi
 //Inyecciones de dependencias
 builder.Services.AddScoped<IAuthServicios,AuthServicios>();
 builder.Services.AddScoped<IDueñoServicios,DueñoServicios>();
+builder.Services.AddScoped<ICitaServicios,CitaServicios>();
+
+
+builder.Services.AddSwaggerGen(
+    opciones =>
+    {
+        opciones.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header, //donde va a ir al bearer token
+            Description = "JWT Autorizacion header"
+        });
+
+        opciones.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {{
+            new OpenApiSecurityScheme ()
+            {
+                Reference =  new OpenApiReference()
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string []{ }
+        }});
+    }
+);
+
+const string misReglasCors = "ReglasCors";
+builder.Services.AddCors(opc =>
+{
+    opc.AddPolicy(name: misReglasCors, builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -59,6 +101,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(misReglasCors);
 
 app.UseHttpsRedirection();
 
