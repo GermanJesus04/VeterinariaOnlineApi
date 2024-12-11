@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeterinariaOnlineApi.Infraestructura.Data;
 
@@ -11,9 +12,11 @@ using VeterinariaOnlineApi.Infraestructura.Data;
 namespace VeterinariaOnlineApi.Infraestructura.Migrations
 {
     [DbContext(typeof(VeterinariaDbContext))]
-    partial class VeterinariaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241210210405_AddEstadoToCita")]
+    partial class AddEstadoToCita
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

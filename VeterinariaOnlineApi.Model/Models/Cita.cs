@@ -21,7 +21,6 @@ namespace VeterinariaOnlineApi.Core.Models
             this.FechaEliminacion = new DateTime();
         }
 
-        [ForeignKey("MASCOTA_ID")]
         public Guid MascotaId { get; set; }
 
         [Column("FECHA")]
@@ -30,6 +29,8 @@ namespace VeterinariaOnlineApi.Core.Models
         [Column("DESCRIPCION")]
         public string Descripcion { get; set; }
 
+        [Column("ESTADO")]
+        public Estado Estado { get; set; }
 
         public Mascota Mascota { get; set; }
     }
